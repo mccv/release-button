@@ -105,7 +105,9 @@ class TbnRelease {
       {
         host: 'api.turbinelabs.io',
         path: '/v1.0/cluster/' + clusterKey,
-        auth: 'Token ' + this._apiKey,
+        headers: {
+          authorization: 'Token ' + this._apiKey,
+        },
         method: 'GET'
       },
       response => {
@@ -127,7 +129,9 @@ class TbnRelease {
       {
         host: 'api.turbinelabs.io',
         path: '/v1.0/shared_rules/' + this._releaseGroupName,
-        auth: 'Token ' + this._apiKey,
+        headers: {
+          authorization: 'Token ' + this._apiKey
+        },
         method: 'GET'
       },
       response => {
@@ -150,9 +154,9 @@ class TbnRelease {
         hostname: 'api.turbinelabs.io',
         port: 443,
         path: '/v1.0/shared_rules/' + this._releaseGroupName,
-        auth: 'Token ' + this._apiKey,
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          authorization: 'Token ' + this._apiKey
         },
         method: 'PUT'
       },
