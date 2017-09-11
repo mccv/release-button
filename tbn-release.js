@@ -1,4 +1,5 @@
 /** @prettier */
+/* eslint camelcase: ["error", {properties: "never"}]*/
 const https = require('https');
 const util = require('util');
 const events = require('events');
@@ -20,21 +21,21 @@ class TbnRelease {
 
   // refresh release group data
   refresh() {
-    let that = this;
+    // let that = this;
     // get our release group
-    that.getReleaseGroup(d => {
-      that._releaseGroupData = d;
+    this.getReleaseGroup(d => {
+      this._releaseGroupData = d;
       // figure out the current version
       let metadata = d.result.default.light[0].metadata;
       metadata.forEach(item => {
-        if (item.key === 'version' || that.currentVersion === null) {
-          that.currentVersion = item.value;
+        if (item.key === 'version' || this.currentVersion === null) {
+          this.currentVersion = item.value;
         }
       });
       // now get our cluster, find all versions of instances labeled stage=prod
       let clusterKey = d.result.default.light[0].cluster_key;
-      that.getCluster(clusterKey, cluster => {
-        that._clusterData = cluster;
+      this.getCluster(clusterKey, cluster => {
+        this._clusterData = cluster;
         let newVersions = new Set();
         let newReleaseReady = false;
         cluster.result.instances.forEach(item => {
@@ -51,20 +52,20 @@ class TbnRelease {
           if (stage === 'prod') {
             newVersions.add(version);
             // if we find a prod instance with an unreleased version, a release is ready
-            if (version !== that.currentVersion) {
+            if (version !== this.currentVersion) {
               newReleaseReady = true;
             }
           }
         });
-        if (that.releaseReady !== newReleaseReady) {
-          that.releaseReady = newReleaseReady;
+        if (this.releaseReady !== newReleaseReady) {
+          this.releaseReady = newReleaseReady;
           // if we toggle into releaseReady, tell people
-          that.emit('releaseReady', newReleaseReady);
+          this.emit('releaseReady', newReleaseReady);
         }
-        that.releaseReady = newReleaseReady;
-        that.versions = newVersions;
+        this.releaseReady = newReleaseReady;
+        this.versions = newVersions;
         // emit an event letting people know we succeeded in a refresh
-        that.emit('refresh');
+        this.emit('refresh');
       });
     });
   }
@@ -80,14 +81,14 @@ class TbnRelease {
         metadata: [
           {
             key: 'stage',
-            value: 'prod',
+            value: 'prod'
           },
           {
             key: 'version',
-            value: tgt.version,
-          },
+            value: tgt.version
+          }
         ],
-        weight: tgt.weight,
+        weight: tgt.weight
       };
       constraints.push(newConstraint);
     });
@@ -104,10 +105,8 @@ class TbnRelease {
       {
         host: 'api.turbinelabs.io',
         path: '/v1.0/cluster/' + clusterKey,
-        headers: {
-          'X-Turbine-API-Key': this._apiKey,
-        },
-        method: 'GET',
+        auth: 'Token ' + this._apiKey,
+        method: 'GET'
       },
       response => {
         let body = '';
@@ -118,7 +117,7 @@ class TbnRelease {
           let parsed = JSON.parse(body);
           callback(parsed);
         });
-      },
+      }
     );
   }
 
@@ -128,10 +127,8 @@ class TbnRelease {
       {
         host: 'api.turbinelabs.io',
         path: '/v1.0/shared_rules/' + this._releaseGroupName,
-        headers: {
-          'X-Turbine-API-Key': this._apiKey,
-        },
-        method: 'GET',
+        auth: 'Token ' + this._apiKey,
+        method: 'GET'
       },
       response => {
         let body = '';
@@ -142,7 +139,7 @@ class TbnRelease {
           let parsed = JSON.parse(body);
           callback(parsed);
         });
-      },
+      }
     );
   }
 
@@ -153,11 +150,11 @@ class TbnRelease {
         hostname: 'api.turbinelabs.io',
         port: 443,
         path: '/v1.0/shared_rules/' + this._releaseGroupName,
+        auth: 'Token ' + this._apiKey,
         headers: {
-          'X-Turbine-API-Key': this._apiKey,
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/json'
         },
-        method: 'PUT',
+        method: 'PUT'
       },
       response => {
         let body = '';
@@ -172,7 +169,7 @@ class TbnRelease {
           .on('error', e => {
             console.log('error updating: %j', e);
           });
-      },
+      }
     );
     let body = JSON.stringify(d.result);
     req.write(body);

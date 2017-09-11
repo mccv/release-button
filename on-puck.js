@@ -149,23 +149,23 @@ NRF.setServices(
         description: 'Release Ready',
         value: 'false',
         writable: true,
-        onWrite: writeReleaseReady,
+        onWrite: writeReleaseReady
       },
       0xabce: {
         description: 'Desired Release Pct',
         value: releasePct,
         notify: true,
-        readable: true,
+        readable: true
       },
       0xabcf: {
         description: 'Release Pct',
         value: '0',
         writable: true,
-        onWrite: writeReleasePct,
-      },
-    },
+        onWrite: writeReleasePct
+      }
+    }
   },
-  { advertise: ['BCDE'] },
+  { advertise: ['BCDE'] }
 );
 
 /**
@@ -192,9 +192,9 @@ function btnPressed() {
     0xabcd: {
       0xabce: {
         value: transmitReleasePct,
-        notify: true,
-      },
-    },
+        notify: true
+      }
+    }
   });
 }
 
@@ -202,5 +202,5 @@ function btnPressed() {
 setWatch(btnPressed, BTN, {
   edge: 'rising',
   repeat: true,
-  debounce: 50,
+  debounce: 50
 });

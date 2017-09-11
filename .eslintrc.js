@@ -51,9 +51,9 @@ const eslintConfig = {
     // (Please use as a one-line comment rather than a block; eventually _all_ files should have
     // prettier enabled by default, and a one-line comment is easier to search/replace.)
     "prettier/prettier": ["error", {
-      semi: true,
+      semi: true, // puck.js requires this
       singleQuote: true,
-      trailingComma: 'all',
+      trailingComma: 'none', // puck.js does not like this
     }, "@prettier"],
 
     //
@@ -61,7 +61,7 @@ const eslintConfig = {
     //
     // The following rules point out areas where you might have made mistakes.
     //
-    "comma-dangle": ["error", "always-multiline"], // for nicer diffs :-)
+    "comma-dangle": 0, // for nicer diffs :-)
     "no-cond-assign": "error", // disallow assignment in conditional expressions
     "no-console": 0,
     "no-constant-condition": ["error", {"checkLoops": false}], // disallow use of constant expressions in conditions
