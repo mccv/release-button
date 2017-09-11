@@ -1,14 +1,31 @@
 {
   "name": "DeployButton",
-  "version": "0.0.0",
-  "description": "Deploy with a puck.js",
+  "version": "0.0.1",
+  "description": "Execute housten releases with a puck.js",
   "main": "index.js",
-  "scripts": {},
+  "license": "Apache-2.0",
+  "scripts": {
+    "lint": "eslint -c .eslintrc.js --ext .js .",
+    "lint:fix": "eslint --fix -c .eslintrc.js --ext .js ."
+  },
   "author": "Mark McBride",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mccv/release-button"
+  },
+  "devDependencies": {
+    "babel-eslint": "^7.2.3",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-register": "^6.26.0",
+    "eslint": "^4.5.0",
+    "eslint-config-prettier": "^2.3.0",
+    "eslint-plugin-jest": "^20.0.3",
+    "eslint-plugin-prettier": "^2.2.0",
+    "prettier": "^1.6.1"
+  },
   "dependencies": {
     "command-line-args": "^4.0.6",
     "command-line-usage": "^4.0.0",
-    "noble": "1.8.1",
-    "nrfuart": "^0.0.4"
+    "noble": "1.8.1"
   }
 }
